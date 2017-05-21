@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+//apt插件
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion 25
@@ -27,4 +30,19 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+
+    //dagger2的依赖
+    compile 'com.google.dagger:dagger:2.6'
+    //关联dagger2
+    apt 'com.google.dagger:dagger-compiler:2.6'
+    //ButterKnife
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    //数据库框架
+    compile 'com.j256.ormlite:ormlite-android:5.0'
 }

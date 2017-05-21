@@ -1,9 +1,11 @@
-package com.sx.takeaway;
+package com.sx.takeaway.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.widget.Toast;
+
+import com.sx.takeaway.R;
 
 
 public class MainActivity extends AppCompatActivity {
