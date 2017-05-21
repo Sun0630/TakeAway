@@ -44,4 +44,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    //数据库框架
+    compile 'com.j256.ormlite:ormlite-android:5.0'
 }
