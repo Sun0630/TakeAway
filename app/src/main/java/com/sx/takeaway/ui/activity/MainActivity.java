@@ -1,33 +1,50 @@
 package com.sx.takeaway.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.sx.takeaway.R;
+import com.sx.takeaway.ui.fragment.HomeFragment;
+import com.sx.takeaway.ui.fragment.MoreFragment;
+import com.sx.takeaway.ui.fragment.OrderFragment;
+import com.sx.takeaway.ui.fragment.UserFragment;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.main_fragment_container)
     FrameLayout mMainFragmentContainer;
     @BindView(R.id.main_bottome_switcher_container)
     LinearLayout mMainBottomeSwitcherContainer;
 
+    private ArrayList<Fragment> mFragments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-//        mMainBottomeSwitcherContainer = (LinearLayout) findViewById(R.id.main_bottome_switcher_container);
+        init();
         setListener();
+    }
+
+    private void init() {
+        mFragments.add(new HomeFragment());
+        mFragments.add(new OrderFragment());
+        mFragments.add(new UserFragment());
+        mFragments.add(new MoreFragment());
+
+        //设置默认第一个选中首页
+        onClickListener.onClick(mMainBottomeSwitcherContainer.getChildAt(0));
     }
 
     /**
@@ -54,8 +71,20 @@ public class MainActivity extends AppCompatActivity {
             int index = mMainBottomeSwitcherContainer.indexOfChild(v);
             changeUI(index);
             //切换Fragment
+            changeFragment(index);
         }
     };
+
+    /**
+     * 切换Fragment
+     * @param index
+     */
+    private void changeFragment(int index) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_fragment_container,mFragments.get(index))
+                .commit();
+    }
 
     /**
      * 改变index对应的孩子的状态，包括这个孩子中可能有的多个子控件的状态。
