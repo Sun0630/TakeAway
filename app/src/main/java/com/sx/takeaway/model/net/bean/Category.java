@@ -6,7 +6,7 @@ package com.sx.takeaway.model.net.bean;
  * @Description 分类
  */
 
-class Category {
+public class Category {
     public int id;
     public String pic;
     public String name;

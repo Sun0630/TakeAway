@@ -42,4 +42,11 @@ dependencies {
     //数据库框架
     compile 'com.j256.ormlite:ormlite-android:5.0'
     compile 'com.android.support:design:26.0.0-alpha1'
+    // slider图片展示
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+
+    //图片显示框架
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
 }

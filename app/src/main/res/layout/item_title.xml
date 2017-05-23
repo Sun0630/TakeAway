@@ -6,20 +6,22 @@
     android:orientation="vertical">
 
 
-    <!--<com.daimajia.slider.library.SliderLayout-->
-        <!--android:id="@+id/slider"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="200dp" />-->
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 
     <HorizontalScrollView
+
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scrollbars="none">
 
         <LinearLayout
+            android:layout_gravity="center"
             android:id="@+id/catetory_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">

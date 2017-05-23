@@ -11,5 +11,5 @@ public interface Constant {
 //    http://169.254.253.32:8080/takeoutService/home
     String BASE_URL = "http://10.0.2.2:8080/";
     String LOGIN = "TakeoutService/login";//登录
-    String HOME = "takeoutService/home";//获取首页数据
+    String HOME = "TakeoutService/home";//获取首页数据
 }
