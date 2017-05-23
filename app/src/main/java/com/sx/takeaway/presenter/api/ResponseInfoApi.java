@@ -24,4 +24,8 @@ public interface ResponseInfoApi {
             @Query("password")
                     String password
     );
+
+    //获取首页数据
+    @GET(Constant.HOME)
+    Call<ResponseInfo> home();
 }
