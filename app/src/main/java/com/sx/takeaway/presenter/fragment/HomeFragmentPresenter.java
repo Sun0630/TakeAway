@@ -5,11 +5,8 @@ import com.sx.takeaway.model.net.bean.HomeInfo;
 import com.sx.takeaway.model.net.bean.ResponseInfo;
 import com.sx.takeaway.presenter.BasePresenter;
 import com.sx.takeaway.ui.fragment.HomeFragment;
-import com.sx.takeaway.utils.ErrorMsg;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * @Author sunxin
@@ -30,28 +27,7 @@ public class HomeFragmentPresenter extends BasePresenter {
      */
     public void getData() {
         Call<ResponseInfo> home = mResponseInfoApi.home();
-        home.enqueue(new Callback<ResponseInfo>() {
-            @Override
-            public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
-                //请求成功
-                if (response != null && response.isSuccessful()) {
-                    ResponseInfo info = response.body();
-                    if ("0".equals(info.code)) {
-                        //解析数据
-                        parseData(info.data);
-                    } else {
-                        //出现异常
-                        failed(ErrorMsg.INFO.get(info.code));
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseInfo> call, Throwable t) {
-                //请求失败
-                System.out.println("请求失败了..." + t.getMessage());
-            }
-        });
+        home.enqueue(new CallbackAdapter());
     }
 
     /**
@@ -59,7 +35,8 @@ public class HomeFragmentPresenter extends BasePresenter {
      *
      * @param msg
      */
-    private void failed(String msg) {
+    @Override
+    protected void failed(String msg) {
         mFragment.failed(msg);
     }
 
@@ -68,7 +45,8 @@ public class HomeFragmentPresenter extends BasePresenter {
      *
      * @param data
      */
-    private void parseData(String data) {
+    @Override
+    protected void parseData(String data) {
         //解析数据
         Gson gson = new Gson();
         HomeInfo homeInfo = gson.fromJson(data, HomeInfo.class);
