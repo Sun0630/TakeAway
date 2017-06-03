@@ -1,5 +1,6 @@
 package com.sx.takeaway.ui.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.sx.takeaway.model.net.bean.HomeInfo;
 import com.sx.takeaway.model.net.bean.HomeItem;
 import com.sx.takeaway.model.net.bean.Promotion;
 import com.sx.takeaway.model.net.bean.Seller;
+import com.sx.takeaway.ui.activity.SellerDetailActivity;
 
 import java.util.ArrayList;
 
@@ -135,7 +137,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             //下方
             if (data != null && data.categorieList.size() > 0) {
-
+                //先清空所有
+                mCategoryContainer.removeAllViews();
                 View item = null;
                 for (int i = 0; i < data.categorieList.size(); i++) {
                     Category category = data.categorieList.get(i);
@@ -169,7 +172,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     /**
      * 商家
      */
-    class SellerHolder extends RecyclerView.ViewHolder {
+    class SellerHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Seller mData;
         TextView tvTitle;
@@ -182,6 +185,16 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         public void setData(Seller data) {
             mData = data;
             tvTitle.setText(mData.name);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(MyApplication.getContext(),SellerDetailActivity.class);
+            intent.putExtra("seller_id",mData.id);
+            intent.putExtra("name",mData.name);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            MyApplication.getContext().startActivity(intent);
         }
     }
 

@@ -7,4 +7,17 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="ActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--修改状态栏颜色-->
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+    </style>
+
+    <!-- ToolBar菜单样式 -->
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/white</item> <!--  修改字体颜色-->
+        <item name="android:textSize">18sp</item> <!--  修改字体大小-->
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+
 </resources>
