@@ -1,22 +1,23 @@
 package com.sx.takeaway.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.sx.takeaway.MyApplication;
 import com.sx.takeaway.R;
-import com.sx.takeaway.dagger2.component.DaggerGoodsFragmentComponent;
-import com.sx.takeaway.dagger2.module.GoodsFragmentModule;
 import com.sx.takeaway.model.net.bean.GoodsInfo;
 import com.sx.takeaway.model.net.bean.GoodsTypeInfo;
 import com.sx.takeaway.presenter.fragment.GoodsFragmentPresenter;
-import com.sx.takeaway.ui.adapter.MyGroupAdapter;
-import com.sx.takeaway.ui.adapter.MyHeadAdapter;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
@@ -32,7 +34,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
  * @Description 商品详情Fragment
  */
 
-public class GoodsFragment extends BaseFragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
+public class GoodsFragment_bak_load_data extends BaseFragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
 
     @BindView(R.id.slh)
     StickyListHeadersListView mSlh;
@@ -40,7 +42,7 @@ public class GoodsFragment extends BaseFragment implements AdapterView.OnItemCli
     ListView mLv;
 
     private MyGroupAdapter mAdapter;
-    private MyHeadAdapter headAdapter;
+    private MyHeaderAdapter headAdapter;
 
     @Inject
     GoodsFragmentPresenter mPresenter;
@@ -49,11 +51,11 @@ public class GoodsFragment extends BaseFragment implements AdapterView.OnItemCli
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //进行Dagger注入
-        DaggerGoodsFragmentComponent
-                .builder()
-                .goodsFragmentModule(new GoodsFragmentModule(this))
-                .build()
-                .in(this);
+//        DaggerGoodsFragmentComponent
+//                .builder()
+//                .goodsFragmentModule(new GoodsFragmentModule(this))
+//                .build()
+//                .in(this);
     }
 
     @Nullable
@@ -145,10 +147,10 @@ public class GoodsFragment extends BaseFragment implements AdapterView.OnItemCli
         }
 
 
-        mAdapter = new MyGroupAdapter(mHeads,mDatas);
+        mAdapter = new MyGroupAdapter();
         mSlh.setAdapter(mAdapter);
 
-        headAdapter = new MyHeadAdapter(mHeads);
+        headAdapter = new MyHeaderAdapter();
         mLv.setAdapter(headAdapter);
 
         mLv.setOnItemClickListener(this);
@@ -156,4 +158,106 @@ public class GoodsFragment extends BaseFragment implements AdapterView.OnItemCli
 
     }
 
+
+    private class MyGroupAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+
+        @Override
+        public View getHeaderView(int position, View convertView, ViewGroup parent) {
+            TextView textView = new TextView(MyApplication.getContext());
+            textView.setBackgroundColor(Color.GRAY);
+            GoodsInfo data = mDatas.get(position);
+            GoodsTypeInfo head = mHeads.get(data.headIndex);
+            System.out.println("HEAD::NAme;" + head.name);
+            textView.setText(head.name);
+            return textView;
+        }
+
+        @Override
+        public long getHeaderId(int position) {
+            GoodsInfo data = mDatas.get(position);
+
+            return data.headId;
+        }
+
+        /////////////////////华丽的分割线/////////////////////////
+
+        @Override
+        public int getCount() {
+            return mDatas.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mDatas.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            TextView textView = new TextView(MyApplication.getContext());
+            textView.setTextColor(Color.GRAY);
+            textView.setText(mDatas.get(position).name);
+            return textView;
+        }
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    /**
+     * 头布局适配器
+     */
+    class MyHeaderAdapter extends BaseAdapter {
+        private int mItemSelection;
+
+        @Override
+        public int getCount() {
+            return mHeads.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mHeads.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            TextView textView = new TextView(MyApplication.getContext());
+            textView.setBackgroundColor(Color.GRAY);
+            textView.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 200));
+            textView.setTextSize(18);
+            textView.setTextColor(Color.BLACK);
+            textView.setGravity(Gravity.CENTER);
+            GoodsTypeInfo head = mHeads.get(position);
+            textView.setText(head.name);
+            if (position == mItemSelection) {
+                textView.setBackgroundColor(Color.WHITE);
+            } else {
+                textView.setBackgroundColor(Color.GRAY);
+            }
+            return textView;
+        }
+
+        public void setSelectPosition(int itemSelection) {
+            if (this.mItemSelection == itemSelection) {
+                return;
+            }
+            mItemSelection = itemSelection;
+            //修改背景颜色和文字颜色
+            notifyDataSetChanged();
+
+        }
+    }
 }

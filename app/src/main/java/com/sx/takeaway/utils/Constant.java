@@ -13,4 +13,6 @@ public interface Constant {
     String BASE_URL = "http://172.16.32.3:8080/";
     String LOGIN = "TakeoutService/login";//登录
     String HOME = "TakeoutService/home";//获取首页数据
+//    http://localhost:8080/TakeoutService/goods?sellerId=1
+    String GOODS = "TakeoutService/goods";//获取商品
 }

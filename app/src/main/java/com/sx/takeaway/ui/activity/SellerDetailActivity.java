@@ -35,6 +35,7 @@ public class SellerDetailActivity extends BaseActivity {
     @BindView(R.id.vp)
     ViewPager mVp;
 
+    private long seller_id;
     //TabLayout 显示的文字
     private String[] titles = {"商品","评价","商家"};
 
@@ -44,7 +45,7 @@ public class SellerDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_seller_detail);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        long id = intent.getLongExtra("seller_id", -1);
+        seller_id = intent.getLongExtra("seller_id", -1);
         //拿到name
         String name = intent.getStringExtra("name");
         mToolbar.setTitle(name);
@@ -73,6 +74,9 @@ public class SellerDetailActivity extends BaseActivity {
             switch (position){
                 case 0:
                     fragment = new GoodsFragment();
+                    Bundle args = new Bundle();
+                    args.putLong("seller_id",seller_id);
+                    fragment.setArguments(args);
                     break;
                 case 1:
                     fragment = new CommentFragment();

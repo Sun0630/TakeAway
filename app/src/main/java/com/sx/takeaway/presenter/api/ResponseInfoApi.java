@@ -28,4 +28,16 @@ public interface ResponseInfoApi {
     //获取首页数据
     @GET(Constant.HOME)
     Call<ResponseInfo> home();
+
+
+    /**
+     * 获取商品数据
+     * @param sellerId 商家ID
+     * @return
+     */
+    @GET(Constant.GOODS)
+    Call<ResponseInfo> goods(
+            @Query("sellerId")
+                    long sellerId
+    );
 }
