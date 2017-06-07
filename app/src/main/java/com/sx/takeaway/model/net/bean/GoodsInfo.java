@@ -20,4 +20,5 @@ public class GoodsInfo {
     //进行联动的参数
     public int headId;//进行分组操作，同组数据该字段相同
     public int headIndex;//当前条目所在头所在容器的下标
+    public int count;//商品数量
 }

@@ -1,6 +1,7 @@
 package com.sx.takeaway.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -15,6 +16,7 @@ import com.sx.takeaway.R;
 import com.sx.takeaway.ui.fragment.CommentFragment;
 import com.sx.takeaway.ui.fragment.GoodsFragment;
 import com.sx.takeaway.ui.fragment.SellerFragment;
+import com.sx.takeaway.utils.UiUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +62,19 @@ public class SellerDetailActivity extends BaseActivity {
         //绑定TabLayout与ViewPager
         mTabs.setupWithViewPager(mVp);
 
+    }
+
+    /**
+     * 当windows焦点改变的时候调用
+     * @param hasFocus
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        //获取到状态栏的高度
+        Rect outRect = new Rect();
+        this.getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
+        UiUtils.STATUE_BAR_HEIGHT = outRect.top;//状态栏的高度
     }
 
     private class MyAdapter extends FragmentPagerAdapter{
