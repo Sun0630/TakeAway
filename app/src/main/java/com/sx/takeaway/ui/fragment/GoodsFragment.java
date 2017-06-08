@@ -1,5 +1,6 @@
 package com.sx.takeaway.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -7,7 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.sx.takeaway.R;
 import com.sx.takeaway.dagger2.component.DaggerGoodsFragmentComponent;
@@ -15,6 +19,8 @@ import com.sx.takeaway.dagger2.module.GoodsFragmentModule;
 import com.sx.takeaway.model.net.bean.GoodsInfo;
 import com.sx.takeaway.model.net.bean.GoodsTypeInfo;
 import com.sx.takeaway.presenter.fragment.GoodsFragmentPresenter;
+import com.sx.takeaway.ui.ShoppingCartManager;
+import com.sx.takeaway.ui.activity.CartActivity;
 import com.sx.takeaway.ui.adapter.MyGroupAdapter;
 import com.sx.takeaway.ui.adapter.MyHeadAdapter;
 
@@ -24,6 +30,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
@@ -38,6 +45,12 @@ public class GoodsFragment extends BaseFragment implements AdapterView.OnItemCli
     StickyListHeadersListView mSlh;
     @BindView(R.id.lv)
     ListView mLv;
+    @BindView(R.id.cart)
+    RelativeLayout mCart;
+    @BindView(R.id.iv_cart)
+    ImageView mIvCart;
+    @BindView(R.id.fragment_goods_tv_count)
+    TextView mFragmentGoodsTvCount;
 
     private MyGroupAdapter mAdapter;
     private MyHeadAdapter headAdapter;
@@ -63,6 +76,17 @@ public class GoodsFragment extends BaseFragment implements AdapterView.OnItemCli
         ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //判断购物车中是否有商品，如果有，就把购物车的气泡显示出来
+        Integer totalNum = ShoppingCartManager.getInstance().getTotalNum();
+        if (totalNum > 0) {
+            mFragmentGoodsTvCount.setVisibility(View.VISIBLE);
+            mFragmentGoodsTvCount.setText(totalNum.toString());
+        }
     }
 
     @Override
@@ -145,7 +169,7 @@ public class GoodsFragment extends BaseFragment implements AdapterView.OnItemCli
         }
 
 
-        mAdapter = new MyGroupAdapter(mHeads,mDatas);
+        mAdapter = new MyGroupAdapter(mHeads, mDatas);
         mSlh.setAdapter(mAdapter);
 
         headAdapter = new MyHeadAdapter(mHeads);
@@ -156,4 +180,9 @@ public class GoodsFragment extends BaseFragment implements AdapterView.OnItemCli
 
     }
 
+    @OnClick(R.id.cart)
+    public void onClick() {
+        //跳转页面
+        this.getContext().startActivity(new Intent(this.getContext(), CartActivity.class));
+    }
 }

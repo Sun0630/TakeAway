@@ -19,6 +19,7 @@ import com.sx.takeaway.model.net.bean.HomeInfo;
 import com.sx.takeaway.model.net.bean.HomeItem;
 import com.sx.takeaway.model.net.bean.Promotion;
 import com.sx.takeaway.model.net.bean.Seller;
+import com.sx.takeaway.ui.ShoppingCartManager;
 import com.sx.takeaway.ui.activity.SellerDetailActivity;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 /**
  * @Author sunxin
  * @Date 2017/5/23 11:29
- * @Description
+ * @Description 主页列表适配器
  */
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -40,16 +41,20 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder holder = null;
         switch (viewType) {
             case TYPE_HEAD:
-                return new HeadHolder(View.inflate(MyApplication.getContext(), R.layout.item_title, null));
+                holder =  new HeadHolder(View.inflate(MyApplication.getContext(), R.layout.item_title, null));
+                break;
             case TYPE_SELLER:
-                return new SellerHolder(View.inflate(MyApplication.getContext(), R.layout.item_seller, null));
+                holder = new SellerHolder(View.inflate(MyApplication.getContext(), R.layout.item_seller, null));
+                break;
             case TYPE_RECOMMEND:
-                return new RecommendHolder(View.inflate(MyApplication.getContext(), R.layout.item_division, null));
+                holder = new RecommendHolder(View.inflate(MyApplication.getContext(), R.layout.item_division, null));
+                break;
         }
 
-        return null;
+        return holder;
     }
 
     @Override
@@ -100,6 +105,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
      * @param data
      */
     public void setData(HomeInfo data) {
+        notifyDataSetChanged();
         mData = data;
     }
 
@@ -165,7 +171,6 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                 }
             }
-
         }
     }
 
@@ -174,26 +179,50 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
      */
     class SellerHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private Seller mData;
+        Seller mData;
         TextView tvTitle;
+        TextView tvCount;//红点
 
         public SellerHolder(View itemView) {
             super(itemView);
             tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            tvCount = (TextView) itemView.findViewById(R.id.tv_count);
         }
 
         public void setData(Seller data) {
             mData = data;
             tvTitle.setText(mData.name);
+
+            //设置已经购买的商品数量，需要根据商家标识进行区分
+            if (mData.id == ShoppingCartManager.getInstance().sellerId){
+                Integer num = ShoppingCartManager.getInstance().getTotalNum();
+                if (num > 0) {
+                    tvCount.setVisibility(View.VISIBLE);
+                    tvCount.setText(num.toString());
+                } else {
+                    tvCount.setVisibility(View.GONE);
+                }
+            }else {
+                tvCount.setVisibility(View.GONE);
+            }
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(MyApplication.getContext(),SellerDetailActivity.class);
-            intent.putExtra("seller_id",mData.id);
-            intent.putExtra("name",mData.name);
+            Intent intent = new Intent(MyApplication.getContext(), SellerDetailActivity.class);
+            intent.putExtra("seller_id", mData.id);
+            intent.putExtra("name", mData.name);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            if (ShoppingCartManager.getInstance().sellerId != mData.id){
+                //进入购物车时更新商家标识
+                ShoppingCartManager.getInstance().sellerId = mData.id;
+                ShoppingCartManager.getInstance().url = mData.pic;
+                ShoppingCartManager.getInstance().name = mData.name;
+                //清除原来商家标识
+                ShoppingCartManager.getInstance().clear();
+            }
             MyApplication.getContext().startActivity(intent);
         }
     }

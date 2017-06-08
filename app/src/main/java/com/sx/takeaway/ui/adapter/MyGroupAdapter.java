@@ -128,6 +128,16 @@ public class MyGroupAdapter extends BaseAdapter implements StickyListHeadersAdap
 
         @OnClick({R.id.ib_minus, R.id.ib_add})
         public void onClick(View v) {
+
+            //通过递归获取到顶层父容器，然后通过顶层父容器找到购物车图片
+            if (mContainer == null) {
+                mContainer = (FrameLayout) UiUtils.getContainder(v, R.id.seller_detail_container);
+            }
+            //修改气泡显示
+            if (mCount == null) {
+                mCount = (TextView) mContainer.findViewById(R.id.fragment_goods_tv_count);
+            }
+
             switch (v.getId()) {
                 case R.id.ib_minus://减少
                     minusHandler(v);
@@ -189,10 +199,7 @@ public class MyGroupAdapter extends BaseAdapter implements StickyListHeadersAdap
             //飞向购物车动画
             flyToCart(v);
 
-            //修改气泡显示
-            if (mCount == null) {
-                mCount = (TextView) mContainer.findViewById(R.id.fragment_goods_tv_count);
-            }
+
 
             Integer totalNum = ShoppingCartManager.getInstance().getTotalNum();
             if (num > 0) {
@@ -208,11 +215,7 @@ public class MyGroupAdapter extends BaseAdapter implements StickyListHeadersAdap
             v.getLocationOnScreen(location);//获取到控件所在屏幕的位置
 
             //获取目标位置
-            //通过递归获取到顶层父容器，然后通过顶层父容器找到购物车图片
-            if (mContainer == null) {
 
-                mContainer = (FrameLayout) UiUtils.getContainder(v, R.id.seller_detail_container);
-            }
             int[] targetLocation = new int[2];
             mContainer.findViewById(R.id.cart).getLocationOnScreen(targetLocation);
 
@@ -270,6 +273,17 @@ public class MyGroupAdapter extends BaseAdapter implements StickyListHeadersAdap
                 tvOldprice.setText(NumberFormatUtils.formatDigits(data.oldPrice));
                 //TextView出现中间的线
                 tvOldprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+
+            //判断购物车中是否有当前商品 ，如果有就获取到商品数量显示上去
+            Integer num = ShoppingCartManager.getInstance().getGoodsIdNum(data.id);
+            if (num > 0) {
+                ibMinus.setVisibility(View.VISIBLE);
+                tvCount.setVisibility(View.VISIBLE);
+                tvCount.setText(num.toString());
+            }else {
+                ibMinus.setVisibility(View.INVISIBLE);
+                tvCount.setVisibility(View.INVISIBLE);
             }
         }
     }

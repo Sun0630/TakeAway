@@ -27,6 +27,12 @@
             android:name=".ui.activity.SellerDetailActivity"
             android:theme="@style/ActivityTheme"
             />
+
+        <!--购物车页面-->
+        <activity
+            android:name=".ui.activity.CartActivity"
+            android:theme="@style/ActivityTheme"
+            />
     </application>
 
 </manifest>

@@ -72,12 +72,6 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
         ButterKnife.bind(this, view);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         //为RecyclerView设置adapter
         mViewAdapter = new HomeRecyclerViewAdapter();
         mRvHome.setAdapter(mViewAdapter);
@@ -85,6 +79,14 @@ public class HomeFragment extends BaseFragment {
 
         //监听RecyclerView的滑动事件，改变头布局的透明度
         mRvHome.addOnScrollListener(listener);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mPresenter.getData();
     }
 
     @Override

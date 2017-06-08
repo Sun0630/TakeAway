@@ -33,15 +33,15 @@ public class ShoppingCartManager {
      */
 
     //保存商品的容器
-    private CopyOnWriteArrayList<GoodsInfo> mGoodsInfos = new CopyOnWriteArrayList<>();
+    public CopyOnWriteArrayList<GoodsInfo> mGoodsInfos = new CopyOnWriteArrayList<>();
 
     //记录商家信息
-    private long sellerId;
-    private String name;
-    private String url;
+    public long sellerId;
+    public String name;
+    public String url;
 
-    private Integer totalNum = 0;//商品数量
-    private Integer money = 0;//总价,单位到分
+    public Integer totalNum = 0;//商品数量
+    public Integer money = 0;//总价,单位到分
 
     /**
      * 添加商品
@@ -99,6 +99,7 @@ public class ShoppingCartManager {
 
     /**
      * 获取购物车中商品的总数量
+     *
      * @return
      */
     public Integer getTotalNum() {
@@ -108,5 +109,41 @@ public class ShoppingCartManager {
             totalNum += item.count;
         }
         return totalNum;
+    }
+
+    /**
+     * 获得商品总价
+     *
+     * @return
+     */
+    public Integer getMoney() {
+        money = 0;
+        for (GoodsInfo item :
+                mGoodsInfos) {
+            money += (int) (item.newPrice * 100);
+        }
+        return money;
+    }
+
+    /**
+     * 清除原来商家标识
+     */
+    public void clear() {
+        mGoodsInfos.clear();
+    }
+
+    /**
+     * 获取商品数量
+     * @param id
+     * @return
+     */
+    public Integer getGoodsIdNum(int id) {
+        for (GoodsInfo item :
+                mGoodsInfos) {
+            if (id == item.id){
+                return item.count;
+            }
+        }
+        return 0;
     }
 }
