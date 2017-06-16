@@ -76,6 +76,8 @@ public class CartActivity extends AppCompatActivity {
 
     @OnClick(R.id.button)
     public void onClick() {
+        // TODO: 2017/6/8 登录第一入口 ，判断是否登录，如果登录跳转生成订单，如果没有登录，跳转登录页面
+
 
     }
 

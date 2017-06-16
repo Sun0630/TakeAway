@@ -1,8 +1,14 @@
 package com.sx.takeaway.ui.activity;
 
+import android.annotation.TargetApi;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -28,6 +34,7 @@ public class MainActivity extends BaseActivity {
 
     private ArrayList<Fragment> mFragments = new ArrayList<>();
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +43,7 @@ public class MainActivity extends BaseActivity {
         init();
         setListener();
     }
+
 
     private void init() {
         mFragments.add(new HomeFragment());
@@ -127,5 +135,23 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
+    /**
+     * 获取Android6.0底部导航栏的高度
+     * @return
+     */
+    public int getNavigationBarHeight() {
+        //判断设备是否有物理按键
+        boolean hasMenuKey = ViewConfiguration.get(this).hasPermanentMenuKey();
+        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+        if (!hasMenuKey && !hasBackKey) {
+            Resources resources = getResources();
+            int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+            //获取NavigationBar的高度
+            int height = resources.getDimensionPixelSize(resourceId);
+            return height;
+        }
+        else{
+            return 0;
+        }
+    }
 }

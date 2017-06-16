@@ -19,7 +19,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    repositories {
+        flatDir {
+            dirs 'libs' //就是你放aar的目录地址
+        }
+    }
 }
+
+
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -45,9 +53,15 @@ dependencies {
     // slider图片展示
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
-
     //图片显示框架
     compile 'com.squareup.picasso:picasso:2.5.2'
     //头部联动效果
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
+
+    //shareSdk
+    compile files('libs/MobCommons-2016.0714.1402.jar')
+    compile files('libs/MobTools-2016.0714.1402.jar')
+
+    compile name: 'SMSSDK-2.1.1', ext: 'aar'
+
 }

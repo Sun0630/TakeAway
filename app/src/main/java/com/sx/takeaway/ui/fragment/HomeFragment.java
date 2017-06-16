@@ -72,6 +72,8 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, null);
         ButterKnife.bind(this, view);
+//        mLlTitleContainer.setBackgroundColor(0XFF3190E8);
+//        getActivity().getWindow().getDecorView().
         //为RecyclerView设置adapter
         mViewAdapter = new HomeRecyclerViewAdapter();
         mRvHome.setAdapter(mViewAdapter);
