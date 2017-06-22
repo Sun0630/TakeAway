@@ -220,6 +220,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ShoppingCartManager.getInstance().sellerId = mData.id;
                 ShoppingCartManager.getInstance().url = mData.pic;
                 ShoppingCartManager.getInstance().name = mData.name;
+                ShoppingCartManager.getInstance().sendPrice = mData.sendPrice;//配送费
                 //清除原来商家标识
                 ShoppingCartManager.getInstance().clear();
             }

@@ -1,5 +1,6 @@
 package com.sx.takeaway.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -77,7 +78,16 @@ public class CartActivity extends AppCompatActivity {
     @OnClick(R.id.button)
     public void onClick() {
         // TODO: 2017/6/8 登录第一入口 ，判断是否登录，如果登录跳转生成订单，如果没有登录，跳转登录页面
-
+        //通过判断USERID是否等0
+        Intent intent = null;
+        if (MyApplication.USERID == 0){
+            //跳转登录界面
+            intent = new Intent(this,LoginActivity.class);
+        }else {
+            //跳转到结算中心界面
+            intent = new Intent(this,SettleCenterActivity.class);
+        }
+        startActivity(intent);
 
     }
 

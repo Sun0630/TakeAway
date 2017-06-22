@@ -40,6 +40,8 @@ public class ShoppingCartManager {
     public String name;
     public String url;
 
+    public int sendPrice;//配送费
+
     public Integer totalNum = 0;//商品数量
     public Integer money = 0;//总价,单位到分
 
