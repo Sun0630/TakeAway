@@ -34,8 +34,6 @@ import cn.smssdk.SMSSDK;
 
 public class LoginActivity extends BaseActivity {
 
-    private static final String APPKEY = "1eb03a20b554c";
-    private static final java.lang.String APPSECRET = "87f874438daaeef992908772b27a8e3a";
     private static final int SENDING = -9;//正在发送
     private static final int RESEND = -8;//重新发送
 
@@ -71,34 +69,43 @@ public class LoginActivity extends BaseActivity {
             super.handleMessage(msg);
             if (msg.what == SENDING) {
                 mTvUserCode.setText("重新发送（" + seconds + "）");
-                mTvUserCode.setEnabled(true);
+
             } else if (msg.what == RESEND) {
                 mTvUserCode.setText("获取验证码");
-            }else {
-                int result = msg.arg1;
-                int event = msg.arg2;
+                mTvUserCode.setEnabled(true);
+            } else {
+                int event = msg.arg1;
+                int result = msg.arg2;
                 Object data = msg.what;
+                System.out.println("result:" + result);
+                System.out.println("event:" + event);
+
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     //回调完成
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                         //提交验证码成功
-                        Toast.makeText(LoginActivity.this, "提交验证成功", Toast.LENGTH_SHORT).show();
+                        System.out.println("提交验证成功");
+                        PromptManager.closeProgressDialog();
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         //获取验证码成功
-                        Toast.makeText(LoginActivity.this, "获取验证码成功", Toast.LENGTH_SHORT).show();
+                        System.out.println("获取验证码成功");
+                        PromptManager.closeProgressDialog();
                     } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
                         //返回支持发送验证码的国家列表
                     }
                 } else {
-                    // TODO: 2017/6/17 验证出错了
-                    ((Throwable) data).printStackTrace();
-                    Toast.makeText(LoginActivity.this, "验证出错了", Toast.LENGTH_SHORT).show();
+                    if (data instanceof Throwable) {
+                        ((Throwable) data).printStackTrace();
+                        Toast.makeText(LoginActivity.this, "验证出错了", Toast.LENGTH_SHORT).show();
+                    }
+                    System.out.println("验证出错");
                     PromptManager.closeProgressDialog();
                 }
             }
         }
     };
-
+    private static final String APPKEY = "1eb03a20b554c";
+    private static final java.lang.String APPSECRET = "87f874438daaeef992908772b27a8e3a";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,7 +132,9 @@ public class LoginActivity extends BaseActivity {
                 }
                 //获取验证码
                 SMSSDK.getVerificationCode("86", mPhone);
-
+                // 3. 把按钮变成不可点击，并且显示倒计时（正在获取）
+                mTvUserCode.setEnabled(false);
+                mTvUserCode.setText("重新发送(" + seconds + ")");
                 //读秒
                 new Thread(new Runnable() {
                     @Override
@@ -133,7 +142,7 @@ public class LoginActivity extends BaseActivity {
 
                         for (; seconds > 0; seconds--) {
                             mHandler.sendEmptyMessage(SENDING);
-                            if (seconds < 0) {
+                            if (seconds <= 0) {
                                 break;
                             }
                             SystemClock.sleep(999);
@@ -146,8 +155,8 @@ public class LoginActivity extends BaseActivity {
             case R.id.login:
                 //登录，发送验证码
                 String code = mEtUserCode.getText().toString();
-                if (!TextUtils.isEmpty(code)) {
-                    SMSSDK.submitVerificationCode("86", mPhone, code);
+                if (!TextUtils.isEmpty(code.trim())) {
+                    SMSSDK.submitVerificationCode("86", mPhone, code.trim());
                     PromptManager.showProgressDialog(this);
                 }
                 break;
@@ -158,7 +167,7 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void afterEvent(int event, int result, Object data) {
             //交给我们自己的Handler处理，这里是子线程
-            Message msg = Message.obtain();
+            Message msg = new Message();
             msg.arg1 = event;
             msg.arg2 = result;
             msg.obj = data;
