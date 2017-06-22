@@ -1,4 +1,4 @@
-package com.sx.takeaway.dagger2.module;
+package com.sx.takeaway.dagger2.module.fragment;
 
 import com.sx.takeaway.presenter.fragment.GoodsFragmentPresenter;
 import com.sx.takeaway.ui.fragment.GoodsFragment;

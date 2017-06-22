@@ -1,6 +1,6 @@
-package com.sx.takeaway.dagger2.component;
+package com.sx.takeaway.dagger2.component.fragment;
 
-import com.sx.takeaway.dagger2.module.HomeFragmentModule;
+import com.sx.takeaway.dagger2.module.fragment.HomeFragmentModule;
 import com.sx.takeaway.ui.fragment.HomeFragment;
 
 import dagger.Component;

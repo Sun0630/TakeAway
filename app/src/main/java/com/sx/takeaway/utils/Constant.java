@@ -15,4 +15,7 @@ public interface Constant {
     String HOME = "TakeoutService/home";//获取首页数据
 //    http://localhost:8080/TakeoutService/goods?sellerId=1
     String GOODS = "TakeoutService/goods";//获取商品
+
+    //短信登录方式
+    int LOGIN_TYPE_SMS = 2;
 }

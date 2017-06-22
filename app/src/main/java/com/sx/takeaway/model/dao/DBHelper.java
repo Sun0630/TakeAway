@@ -5,7 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 import com.sx.takeaway.MyApplication;
+import com.sx.takeaway.model.dao.bean.AddressBean;
+import com.sx.takeaway.model.dao.bean.UserBean;
+
+import java.sql.SQLException;
 
 /**
  * @Author sunxin
@@ -47,7 +52,13 @@ public class DBHelper extends OrmLiteSqliteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         //创建表
+        try {
+            TableUtils.createTable(connectionSource, UserBean.class);
+            TableUtils.createTable(connectionSource, AddressBean.class);
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sx.takeaway.R;
-import com.sx.takeaway.dagger2.component.DaggerHomeFragmentComponent;
-import com.sx.takeaway.dagger2.module.HomeFragmentModule;
+import com.sx.takeaway.dagger2.component.fragment.DaggerHomeFragmentComponent;
+import com.sx.takeaway.dagger2.module.fragment.HomeFragmentModule;
 import com.sx.takeaway.model.net.bean.HomeInfo;
 import com.sx.takeaway.presenter.fragment.HomeFragmentPresenter;
 import com.sx.takeaway.ui.adapter.HomeRecyclerViewAdapter;

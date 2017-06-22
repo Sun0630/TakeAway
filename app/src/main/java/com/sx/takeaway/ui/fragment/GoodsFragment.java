@@ -14,8 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sx.takeaway.R;
-import com.sx.takeaway.dagger2.component.DaggerGoodsFragmentComponent;
-import com.sx.takeaway.dagger2.module.GoodsFragmentModule;
+import com.sx.takeaway.dagger2.component.fragment.DaggerGoodsFragmentComponent;
+import com.sx.takeaway.dagger2.module.fragment.GoodsFragmentModule;
 import com.sx.takeaway.model.net.bean.GoodsInfo;
 import com.sx.takeaway.model.net.bean.GoodsTypeInfo;
 import com.sx.takeaway.presenter.fragment.GoodsFragmentPresenter;

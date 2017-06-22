@@ -16,13 +16,30 @@ import retrofit2.http.Query;
 
 public interface ResponseInfoApi {
 
-    //登录
+    /**
+     * 普通登录方式
+     * @param username
+     * @param password
+     * @return
+     */
     @GET(Constant.LOGIN)
     Call<ResponseInfo> login(
             @Query("username")
                     String username,
             @Query("password")
                     String password
+    );
+
+    /**
+     * 短信登录方式
+     * @param phone
+     * @param type
+     * @return
+     */
+    @GET(Constant.LOGIN)
+    Call<ResponseInfo> login(
+            @Query("phone") String phone,
+            @Query("type") int type
     );
 
     //获取首页数据
@@ -40,4 +57,6 @@ public interface ResponseInfoApi {
             @Query("sellerId")
                     long sellerId
     );
+
+
 }

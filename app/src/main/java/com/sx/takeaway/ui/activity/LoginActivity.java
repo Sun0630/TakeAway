@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,8 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sx.takeaway.R;
+import com.sx.takeaway.dagger2.component.activity.DaggerLoginActivityComponent;
+import com.sx.takeaway.dagger2.module.activity.LoginActivityModule;
+import com.sx.takeaway.presenter.activity.LoginActivityPresenter;
 import com.sx.takeaway.utils.PromptManager;
 import com.sx.takeaway.utils.SMSUtil;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +66,8 @@ public class LoginActivity extends BaseActivity {
      * 5、	发送验证码：SMSSDK.submitVerificationCode("86", phone, code.trim());监听事件触发。
      * 6、	注销监听。
      */
+    @Inject
+    LoginActivityPresenter mPresenter;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -86,6 +92,9 @@ public class LoginActivity extends BaseActivity {
                         //提交验证码成功
                         System.out.println("提交验证成功");
                         PromptManager.closeProgressDialog();
+                        // TODO: 2017/6/22 将用户输入的电话号码发送到服务器
+                        //服务器工作，判断是否有该用户的记录，如果有，将用户信息返回给手机端，
+                        // 如果没有，创建一条用户记录
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         //获取验证码成功
                         System.out.println("获取验证码成功");
@@ -116,6 +125,12 @@ public class LoginActivity extends BaseActivity {
         SMSUtil.checkPermission(this);
         //2,初始化工具
         SMSSDK.initSDK(this, APPKEY, APPSECRET, true);
+
+        DaggerLoginActivityComponent
+                .builder()
+                .loginActivityModule(new LoginActivityModule(this))
+                .build()
+                .in(this);
     }
 
     @OnClick({R.id.tv_user_code, R.id.login})
@@ -154,13 +169,21 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.login:
                 //登录，发送验证码
-                String code = mEtUserCode.getText().toString();
-                if (!TextUtils.isEmpty(code.trim())) {
-                    SMSSDK.submitVerificationCode("86", mPhone, code.trim());
-                    PromptManager.showProgressDialog(this);
-                }
+//                String code = mEtUserCode.getText().toString();
+//                if (!TextUtils.isEmpty(code.trim())) {
+//                    SMSSDK.submitVerificationCode("86", mPhone, code.trim());
+//                    PromptManager.showProgressDialog(this);
+//                }
+                testData();
                 break;
         }
+    }
+
+    /**
+     * 测试数据
+     */
+    private void testData() {
+        mPresenter.getData(mEtUserPhone.getText().toString().trim());
     }
 
     private EventHandler eventHandler = new EventHandler() {
@@ -187,5 +210,20 @@ public class LoginActivity extends BaseActivity {
         super.onPause();
         //注销监听
         SMSSDK.unregisterAllEventHandler();
+    }
+
+    /**
+     * 请求错误时调用
+     * @param s
+     */
+    public void failed(String s) {
+
+    }
+
+    /**
+     * 请求成功
+     */
+    public void success() {
+
     }
 }
