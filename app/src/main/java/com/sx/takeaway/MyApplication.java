@@ -13,6 +13,10 @@ public class MyApplication extends Application {
 
     private static Context context;
 
+    //存储一些用户信息
+    public static int USERID = 0;
+    public static String phone = "";
+
     @Override
     public void onCreate() {
         super.onCreate();

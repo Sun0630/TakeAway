@@ -224,6 +224,7 @@ public class LoginActivity extends BaseActivity {
      * 请求成功
      */
     public void success() {
-
+        //界面跳转
+        finish();
     }
 }

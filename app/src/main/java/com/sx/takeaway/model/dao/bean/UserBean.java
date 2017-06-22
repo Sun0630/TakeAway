@@ -12,6 +12,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "t_user")
 public class UserBean {
+    //自增
     @DatabaseField(columnName = "_id", id = true)
     public int _id;
 
