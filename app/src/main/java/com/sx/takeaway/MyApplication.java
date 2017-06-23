@@ -14,8 +14,12 @@ public class MyApplication extends Application {
     private static Context context;
 
     //存储一些用户信息
-    public static int USERID = 0;
-    public static String phone = "";
+//    public static int USERID = 0;
+//    public static String phone = "";
+
+    //测试数据，不用每次都登录
+    public static int USERID = 3419;
+    public static String phone = "13200000001";
 
     @Override
     public void onCreate() {

@@ -61,8 +61,18 @@
             android:name=".ui.activity.LoginActivity"
             />
 
+        <!--结算中心-->
         <activity
             android:name=".ui.activity.SettleCenterActivity"
+            />
+
+        <!--收货地址-->
+        <activity android:name=".ui.activity.ReceiptAddressActivity"/>
+
+        <!--编辑收货地址-->
+        <activity
+            android:name=".ui.activity.EditReceiptAddressActivity"
+            android:theme="@style/ActivityTheme"
             />
     </application>
 

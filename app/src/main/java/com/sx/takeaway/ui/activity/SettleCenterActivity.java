@@ -1,5 +1,6 @@
 package com.sx.takeaway.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.TypedValue;
@@ -123,6 +124,7 @@ public class SettleCenterActivity extends BaseActivity {
                 break;
             case R.id.rl_location://选择地址
                 // TODO: 2017/6/23 地址管理入口
+                startActivity(new Intent(this,ReceiptAddressActivity.class));
                 break;
             case R.id.tv_submit://提交订单
                 break;

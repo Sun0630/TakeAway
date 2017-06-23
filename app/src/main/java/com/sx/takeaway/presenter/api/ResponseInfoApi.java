@@ -18,6 +18,7 @@ public interface ResponseInfoApi {
 
     /**
      * 普通登录方式
+     *
      * @param username
      * @param password
      * @return
@@ -32,6 +33,7 @@ public interface ResponseInfoApi {
 
     /**
      * 短信登录方式
+     *
      * @param phone
      * @param type
      * @return
@@ -49,6 +51,7 @@ public interface ResponseInfoApi {
 
     /**
      * 获取商品数据
+     *
      * @param sellerId 商家ID
      * @return
      */
@@ -56,6 +59,17 @@ public interface ResponseInfoApi {
     Call<ResponseInfo> goods(
             @Query("sellerId")
                     long sellerId
+    );
+
+    /**
+     * 获取收货地址
+     *
+     * @return
+     */
+    @GET(Constant.ADDRESS)
+    Call<ResponseInfo> address(
+            @Query("userId")
+                    int userId
     );
 
 

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,7 +37,7 @@ import cn.smssdk.SMSSDK;
  * 4，把手机号发送到自己的服务器，进行用户的添加操作
  */
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private static final int SENDING = -9;//正在发送
     private static final int RESEND = -8;//重新发送

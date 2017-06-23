@@ -36,6 +36,19 @@ public class AddressBean {
 
     //指定外键
     @DatabaseField(canBeNull = false, foreign = true, foreignColumnName = "_id", columnName = "user_id")
-    private UserBean user;
+    public UserBean user;
 
+
+    public AddressBean() {
+    }
+
+    public AddressBean(String name, String sex, String phone, String receiptAddress, String detailAddress, String label) {
+        this.name = name;
+        this.sex = sex;
+        this.phone = phone;
+        this.receiptAddress = receiptAddress;
+        this.detailAddress = detailAddress;
+        this.label = label;
+        timeStamp = System.currentTimeMillis();
+    }
 }
