@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.sx.takeaway.MyApplication;
 import com.sx.takeaway.R;
-import com.sx.takeaway.dagger2.component.DaggerAddressComponent;
-import com.sx.takeaway.dagger2.module.AddressModule;
 import com.sx.takeaway.model.dao.bean.AddressBean;
 import com.sx.takeaway.model.net.bean.GoodsInfo;
 import com.sx.takeaway.ui.ShoppingCartManager;
@@ -72,11 +72,6 @@ public class SettleCenterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settle_center);
         ButterKnife.bind(this);
-        DaggerAddressComponent
-                .builder()
-                .addressModule(new AddressModule(this))
-                .build()
-                .in(this);
 
         setData();
     }
@@ -125,6 +120,8 @@ public class SettleCenterActivity extends BaseActivity {
         }
     }
 
+    private int addressId = -1;
+
     @OnClick({R.id.ib_back, R.id.rl_location, R.id.tv_submit})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -137,6 +134,14 @@ public class SettleCenterActivity extends BaseActivity {
                 startActivityForResult(intent, 200);
                 break;
             case R.id.tv_submit://提交订单
+                //用户输入校验：地址（是否选择了地址）
+                if (addressId != -1){
+                    //提交订单数据到服务器，服务器会向订单数据库插入一条订单数据，生成对应的订单号，
+                    //该订单号会返回给手机端，手机端收到该订单号跳转支付页面。
+                    mOrderPresenter.create(MyApplication.USERID,addressId,1);
+                }else {
+                    Toast.makeText(this, "请选择收货地址", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
@@ -147,8 +152,9 @@ public class SettleCenterActivity extends BaseActivity {
         if (requestCode == 200) {
             int id = data.getIntExtra("id", -1);
             if (id != -1) {
+                addressId = id;
                 //查询成功后会调用success方法
-                mPresenter.finbDataById(id);
+                mAddressPresenter.finbDataById(id);
             }
         }
     }
@@ -160,6 +166,13 @@ public class SettleCenterActivity extends BaseActivity {
             mTvSelectAddress.setVisibility(View.GONE);
             mLlSelectedAddressContainer.setVisibility(View.VISIBLE);
             mTvName.setText(bean.name);
+        }
+        
+        
+        if (o instanceof String){
+            //  2017/6/26 服务端生成的订单编号到了，跳转支付页面
+            //1是支付类型为在线支付
+            mOrderPresenter.create(MyApplication.USERID,addressId,1);
         }
     }
 }

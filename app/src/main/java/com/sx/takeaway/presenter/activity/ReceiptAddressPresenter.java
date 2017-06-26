@@ -10,7 +10,7 @@ import com.sx.takeaway.model.dao.bean.AddressBean;
 import com.sx.takeaway.model.dao.bean.UserBean;
 import com.sx.takeaway.model.net.bean.ResponseInfo;
 import com.sx.takeaway.presenter.BasePresenter;
-import com.sx.takeaway.ui.IAddressView;
+import com.sx.takeaway.ui.IView;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -25,11 +25,11 @@ import retrofit2.Call;
 
 public class ReceiptAddressPresenter extends BasePresenter {
 
-    IAddressView view;
+    IView view;
     static Dao<AddressBean, Integer> dao;
 
-    public ReceiptAddressPresenter(IAddressView activity) {
-        view = activity;
+    public ReceiptAddressPresenter(IView view) {
+        this.view = view;
         try {
             dao = dbHelper.getDao(AddressBean.class);
         } catch (SQLException e) {

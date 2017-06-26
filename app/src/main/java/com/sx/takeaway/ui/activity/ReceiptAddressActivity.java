@@ -16,8 +16,6 @@ import android.widget.TextView;
 
 import com.sx.takeaway.MyApplication;
 import com.sx.takeaway.R;
-import com.sx.takeaway.dagger2.component.DaggerAddressComponent;
-import com.sx.takeaway.dagger2.module.AddressModule;
 import com.sx.takeaway.model.dao.bean.AddressBean;
 
 import java.util.List;
@@ -58,12 +56,7 @@ public class ReceiptAddressActivity extends BaseActivity {
         setContentView(R.layout.activity_receipt_address);
         Log.e(TAG, "onCreate: 创建");
         ButterKnife.bind(this);
-        //注入
-        DaggerAddressComponent
-                .builder()
-                .addressModule(new AddressModule(this))
-                .build()
-                .in(this);
+
     }
 
 
@@ -71,8 +64,7 @@ public class ReceiptAddressActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.getData();
-//        mPresenter.finbAllAddressByUserId(MyApplication.USERID);
+        mAddressPresenter.getData();
     }
 
     @OnClick({R.id.ib_back, R.id.tv_add_address})

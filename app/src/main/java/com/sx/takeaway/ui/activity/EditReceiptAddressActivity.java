@@ -19,8 +19,6 @@ import android.widget.Toast;
 
 import com.sx.takeaway.MyApplication;
 import com.sx.takeaway.R;
-import com.sx.takeaway.dagger2.component.DaggerAddressComponent;
-import com.sx.takeaway.dagger2.module.AddressModule;
 import com.sx.takeaway.model.dao.bean.AddressBean;
 
 import butterknife.BindView;
@@ -81,12 +79,6 @@ public class EditReceiptAddressActivity extends BaseActivity {
         Log.e(TAG, "onCreate: 创建");
         ButterKnife.bind(this);
 
-        //Dagger2注入
-        DaggerAddressComponent
-                .builder()
-                .addressModule(new AddressModule(this))
-                .build()
-                .in(this);
         init();
     }
 
@@ -106,7 +98,7 @@ public class EditReceiptAddressActivity extends BaseActivity {
             mIbDeleteAddress.setVisibility(View.VISIBLE);
 
             //把原来的数据回显到EditText中
-            mPresenter.finbDataById(id);
+            mAddressPresenter.finbDataById(id);
         } else {
             mTvTitle.setText("新增地址");
             mIbDeleteAddress.setVisibility(View.INVISIBLE);
@@ -149,7 +141,7 @@ public class EditReceiptAddressActivity extends BaseActivity {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mPresenter.delete(id);
+                        mAddressPresenter.delete(id);
                     }
                 })
                 .create()
@@ -201,9 +193,9 @@ public class EditReceiptAddressActivity extends BaseActivity {
         String label = mTvLabel.getText().toString();
 
         if (id == -1) {
-            mPresenter.create(name, sex, phone, receiptAddress, detailAddress, label);
+            mAddressPresenter.create(name, sex, phone, receiptAddress, detailAddress, label);
         } else {
-            mPresenter.update(id, name, sex, phone, receiptAddress, detailAddress, label);
+            mAddressPresenter.update(id, name, sex, phone, receiptAddress, detailAddress, label);
         }
         finish();
     }
