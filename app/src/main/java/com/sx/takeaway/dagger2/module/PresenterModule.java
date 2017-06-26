@@ -1,6 +1,7 @@
 package com.sx.takeaway.dagger2.module;
 
 import com.sx.takeaway.presenter.activity.OrderPresenter;
+import com.sx.takeaway.presenter.activity.PaymentPresenter;
 import com.sx.takeaway.presenter.activity.ReceiptAddressPresenter;
 import com.sx.takeaway.ui.IView;
 
@@ -28,5 +29,10 @@ public class PresenterModule {
     @Provides
     public ReceiptAddressPresenter providesReceiptAddress(){
         return new ReceiptAddressPresenter(mView);
+    }
+
+    @Provides
+    public PaymentPresenter providesPaymentAddress(){
+        return new PaymentPresenter(mView);
     }
 }

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.sx.takeaway.dagger2.component.DaggerCommonComponent;
 import com.sx.takeaway.dagger2.module.PresenterModule;
 import com.sx.takeaway.presenter.activity.OrderPresenter;
+import com.sx.takeaway.presenter.activity.PaymentPresenter;
 import com.sx.takeaway.presenter.activity.ReceiptAddressPresenter;
 import com.sx.takeaway.ui.IView;
 
@@ -24,6 +25,9 @@ public class BaseActivity extends AppCompatActivity implements IView {
 
     @Inject
     OrderPresenter mOrderPresenter;
+
+    @Inject
+    PaymentPresenter mPaymentPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

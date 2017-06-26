@@ -18,6 +18,9 @@ public interface Constant {
     //    http://localhost:8080/TakeoutService/address?userid=3419
     String ADDRESS = "TakeoutService/address";
 
+    String ORDER = "TakeoutService/order";//提交订单信息
+
+    String PAY = "TakeoutService/pay";//获取支付信息
 
     //短信登录方式
     int LOGIN_TYPE_SMS = 2;

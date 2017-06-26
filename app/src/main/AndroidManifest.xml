@@ -74,6 +74,13 @@
             android:name=".ui.activity.EditReceiptAddressActivity"
             android:theme="@style/ActivityTheme"
             />
+
+        <!--在线支付-->
+        <activity
+            android:name=".ui.activity.OnlinePayActivity"
+            android:theme="@style/ActivityTheme"
+            />
+
     </application>
 
 </manifest>

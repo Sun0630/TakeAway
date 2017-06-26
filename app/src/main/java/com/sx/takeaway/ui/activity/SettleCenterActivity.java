@@ -171,8 +171,10 @@ public class SettleCenterActivity extends BaseActivity {
         
         if (o instanceof String){
             //  2017/6/26 服务端生成的订单编号到了，跳转支付页面
-            //1是支付类型为在线支付
-            mOrderPresenter.create(MyApplication.USERID,addressId,1);
+            String orderId = (String) o;
+            Intent intent = new Intent(this,OnlinePayActivity.class);
+            intent.putExtra("orderid",orderId);
+            startActivity(intent);
         }
     }
 }

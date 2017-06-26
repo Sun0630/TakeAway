@@ -5,7 +5,10 @@ import com.sx.takeaway.model.net.bean.ResponseInfo;
 import com.sx.takeaway.utils.Constant;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -72,5 +75,15 @@ public interface ResponseInfoApi {
                     int userId
     );
 
+    /**
+     * 提交订单信息到服务器
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(Constant.ORDER)
+    Call<ResponseInfo> createOrder(@Field("orderOverview") String json);
 
+    @GET(Constant.PAY)
+    Call<ResponseInfo> payment(@Query("orderId") String id);
 }
