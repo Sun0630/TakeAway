@@ -72,6 +72,7 @@ public class ReceiptAddressActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         mPresenter.getData();
+//        mPresenter.finbAllAddressByUserId(MyApplication.USERID);
     }
 
     @OnClick({R.id.ib_back, R.id.tv_add_address})
@@ -179,6 +180,15 @@ public class ReceiptAddressActivity extends BaseActivity {
             public ViewHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this,itemView);
+            }
+
+            @OnClick(R.id.iv_edit)
+            public void click(){
+                //跳转到编辑界面
+                Intent intent = new Intent(ReceiptAddressActivity.this, EditReceiptAddressActivity.class);
+                intent.putExtra("id",mData._id);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                MyApplication.getContext().startActivity(intent);
             }
 
             public void setData(AddressBean data) {

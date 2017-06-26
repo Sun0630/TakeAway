@@ -101,15 +101,15 @@ public class ReceiptAddressPresenter extends BasePresenter {
     /**
      * 用户添加地址数据
      */
-    public void create(String name, String sex, String phone, String receiptAddress, String detailAddress, String label){
+    public void create(String name, String sex, String phone, String receiptAddress, String detailAddress, String label) {
         //添加一条数据到数据库
-        AddressBean addressBean = new AddressBean(name,sex,phone,receiptAddress,detailAddress,label);
+        AddressBean addressBean = new AddressBean(name, sex, phone, receiptAddress, detailAddress, label);
         int i = create(addressBean);
-        if (i==1){
+        if (i == 1) {
             //写入本地数据库成功
             view.success(i);//添加地址界面
 
-        }else{
+        } else {
             view.failed("添加数据失败");
         }
         //上传到服务器
@@ -131,4 +131,59 @@ public class ReceiptAddressPresenter extends BasePresenter {
         }
     }
 
+    /**
+     * 通过用户ID查询出用户收货地址信息
+     *
+     * @param id
+     */
+    public void finbDataById(int id) {
+        try {
+            AddressBean addressBean = dao.queryForId(id);
+            view.success(addressBean);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 修改用户地址信息
+     *
+     * @param id
+     * @param name
+     * @param sex
+     * @param phone
+     * @param address
+     * @param address1
+     * @param label
+     */
+    public void update(int id, String name, String sex, String phone, String address, String address1, String label) {
+        AddressBean bean = new AddressBean(name, sex, phone, address, address1, label);
+        UserBean userBean = new UserBean();
+        userBean._id = MyApplication.USERID;
+        bean.user = userBean;
+        bean._id = id;
+        try {
+            int update = dao.update(bean);
+            if (update == 1)
+                view.success(update);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 依据id删除收货地址
+     *
+     * @param id
+     */
+    public void delete(int id) {
+        try {
+            int i = dao.deleteById(id);
+            if (i == 1) {
+                view.success(i);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
