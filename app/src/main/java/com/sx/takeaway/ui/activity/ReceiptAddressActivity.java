@@ -180,6 +180,17 @@ public class ReceiptAddressActivity extends BaseActivity {
             public ViewHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this,itemView);
+                //设置条目点击事件
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //把收货地址标识返回回去
+                        Intent intent = new Intent();
+                        intent.putExtra("id",mData._id);
+                        setResult(200,intent);
+                        ReceiptAddressActivity.this.finish();
+                    }
+                });
             }
 
             @OnClick(R.id.iv_edit)
@@ -210,6 +221,9 @@ public class ReceiptAddressActivity extends BaseActivity {
 
                 mTvAddress.setText(data.receiptAddress + data.detailAddress);
             }
+
+
+
         }
     }
 }

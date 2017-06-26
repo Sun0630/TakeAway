@@ -10,8 +10,8 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @DatabaseTable(tableName = "t_address")
 public class AddressBean {
-    //主键
-    @DatabaseField(id = true)
+    //主键 自增
+    @DatabaseField(generatedId = true)
     public int _id;
     //不能为空
     @DatabaseField(canBeNull = false)

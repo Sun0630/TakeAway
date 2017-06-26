@@ -13,6 +13,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sx.takeaway.R;
+import com.sx.takeaway.dagger2.component.DaggerAddressComponent;
+import com.sx.takeaway.dagger2.module.AddressModule;
+import com.sx.takeaway.model.dao.bean.AddressBean;
 import com.sx.takeaway.model.net.bean.GoodsInfo;
 import com.sx.takeaway.ui.ShoppingCartManager;
 
@@ -69,6 +72,11 @@ public class SettleCenterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settle_center);
         ButterKnife.bind(this);
+        DaggerAddressComponent
+                .builder()
+                .addressModule(new AddressModule(this))
+                .build()
+                .in(this);
 
         setData();
     }
@@ -112,7 +120,7 @@ public class SettleCenterActivity extends BaseActivity {
             //设置配送费
             mTvSendPrice.setText("￥" + ShoppingCartManager.getInstance().sendPrice);
             //设置支付总额 ，购物车的钱+配送费
-            float money = ShoppingCartManager.getInstance().getMoney()/100.0f + ShoppingCartManager.getInstance().sendPrice;
+            float money = ShoppingCartManager.getInstance().getMoney() / 100.0f + ShoppingCartManager.getInstance().sendPrice;
             mTvCountPrice.setText("待支付￥" + money);
         }
     }
@@ -123,11 +131,35 @@ public class SettleCenterActivity extends BaseActivity {
             case R.id.ib_back://后退
                 break;
             case R.id.rl_location://选择地址
-                // TODO: 2017/6/23 地址管理入口
-                startActivity(new Intent(this,ReceiptAddressActivity.class));
+                // 2017/6/23 地址管理入口
+                Intent intent = new Intent(this, ReceiptAddressActivity.class);
+
+                startActivityForResult(intent, 200);
                 break;
             case R.id.tv_submit://提交订单
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200) {
+            int id = data.getIntExtra("id", -1);
+            if (id != -1) {
+                //查询成功后会调用success方法
+                mPresenter.finbDataById(id);
+            }
+        }
+    }
+
+    @Override
+    public void success(Object o) {
+        if (o instanceof AddressBean){
+            AddressBean bean = (AddressBean) o;
+            mTvSelectAddress.setVisibility(View.GONE);
+            mLlSelectedAddressContainer.setVisibility(View.VISIBLE);
+            mTvName.setText(bean.name);
         }
     }
 }

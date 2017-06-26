@@ -139,10 +139,11 @@
                                android:text="中关村软件园"/>
                        </LinearLayout>
                    </LinearLayout>
+
                    <TextView
+                       android:id="@+id/tv_select_address"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-                       android:id="@+id/tv_select_address"
                        android:layout_gravity="center_vertical"
                        android:text="请设置收货地址"/>
                </FrameLayout>
