@@ -85,7 +85,7 @@ public class PaymentPresenter extends BasePresenter {
             HashMap<String, Object> dataMap = new HashMap<>();
             dataMap.put("payDownTime", time);
             dataMap.put("money", money);
-            dataMap.put("paymentInfos", paymentInfos);
+            dataMap.put("paymentInfo", paymentInfos);
 
             mView.success(dataMap);
         } catch (JSONException e) {
