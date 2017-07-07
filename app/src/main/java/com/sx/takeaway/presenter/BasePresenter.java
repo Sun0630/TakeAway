@@ -57,7 +57,6 @@ public abstract class BasePresenter {
                 }
             }else {
                 //请求失败
-
             }
         }
 

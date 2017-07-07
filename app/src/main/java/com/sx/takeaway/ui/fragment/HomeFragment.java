@@ -1,6 +1,7 @@
 package com.sx.takeaway.ui.fragment;
 
 import android.animation.ArgbEvaluator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,12 +17,14 @@ import com.sx.takeaway.dagger2.component.fragment.DaggerHomeFragmentComponent;
 import com.sx.takeaway.dagger2.module.fragment.HomeFragmentModule;
 import com.sx.takeaway.model.net.bean.HomeInfo;
 import com.sx.takeaway.presenter.fragment.HomeFragmentPresenter;
+import com.sx.takeaway.ui.activity.SelectAddressActivity;
 import com.sx.takeaway.ui.adapter.HomeRecyclerViewAdapter;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * @Author sunxin
@@ -41,6 +44,8 @@ import butterknife.ButterKnife;
  * b、复杂数据加载
  */
 public class HomeFragment extends BaseFragment {
+
+
 
     @BindView(R.id.rv_home)
     RecyclerView mRvHome;
@@ -150,4 +155,13 @@ public class HomeFragment extends BaseFragment {
     public HomeRecyclerViewAdapter getAdapter() {
         return mViewAdapter;
     }
+
+    @OnClick(R.id.home_tv_address)
+    public void onClick() {
+        Intent intent = new Intent(this.getContext(), SelectAddressActivity.class);
+        startActivityForResult(intent,200);
+    }
+
+//    Error:Execution failed for task ':app:packageDebug'.
+//            > com.android.ide.common.signing.KeytoolException: Failed to read key takeaway from store "E:\fuckCode\takeaway.jks": No key with alias 'takeaway' found in keystore E:\fuckCode\takeaway.jks
 }

@@ -1,2 +1,1 @@
 include ':app', ':mvp'
-include ':alipay_demo'
