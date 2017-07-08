@@ -1,6 +1,7 @@
 package com.sx.takeaway.ui.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -153,5 +154,11 @@ public class MainActivity extends BaseActivity {
         else{
             return 0;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mFragments.get(0).onActivityResult(requestCode,resultCode,data);
     }
 }

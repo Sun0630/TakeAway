@@ -13,12 +13,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.services.core.LatLonPoint;
 import com.sx.takeaway.MyApplication;
 import com.sx.takeaway.R;
 import com.sx.takeaway.model.dao.bean.AddressBean;
 import com.sx.takeaway.model.net.bean.GoodsInfo;
 import com.sx.takeaway.ui.ShoppingCartManager;
 
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import butterknife.BindView;
@@ -85,6 +87,12 @@ public class SettleCenterActivity extends BaseActivity {
     * */
 
     private void setData() {
+        //到数据库中获取地址列表，根据定位获取地址
+        if (MyApplication.LOCATION != null){
+            mAddressPresenter.finbAllAddressByUserId(MyApplication.USERID);
+        }
+
+
         /*
         * 设置数据：
         *   1，商家数据
@@ -176,5 +184,50 @@ public class SettleCenterActivity extends BaseActivity {
             intent.putExtra("orderid",orderId);
             startActivity(intent);
         }
+
+        //根据定位返回地址列表，判断距离在500米之内设置为默认地址
+        if (o instanceof List){
+            List<AddressBean> beans = (List<AddressBean>) o;
+            for (AddressBean item:
+                 beans) {
+                //找到两个点
+                LatLonPoint point = new LatLonPoint(item.latitude,item.longitude);
+                //计算两点之间距离
+                double distance = getDistance(point, MyApplication.LOCATION);
+                if (distance < 500){
+                    // 该条目为默认地址
+                    // 修改界面
+                    mTvSelectAddress.setVisibility(View.GONE);
+                    mLlSelectedAddressContainer.setVisibility(View.VISIBLE);
+                    mTvName.setText(item.name);
+                }
+            }
+        }
+
+    }
+
+    /*
+    * 计算两点之间距离
+    *
+    * @param start
+    *
+    * @param end
+    *
+    * @return 米
+    */
+    public double getDistance(LatLonPoint start, LatLonPoint end) {
+
+        double lon1 = (Math.PI / 180) * start.getLongitude();
+        double lon2 = (Math.PI / 180) * end.getLongitude();
+        double lat1 = (Math.PI / 180) * start.getLatitude();
+        double lat2 = (Math.PI / 180) * end.getLatitude();
+
+        // 地球半径
+        double R = 6371;
+
+        // 两点间距离 km，如果想要米的话，结果*1000就可以了
+        double d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * R;
+
+        return d * 1000;
     }
 }

@@ -3,6 +3,8 @@ package com.sx.takeaway;
 import android.app.Application;
 import android.content.Context;
 
+import com.amap.api.services.core.LatLonPoint;
+
 /**
  * @Author sunxin
  * @Date 2017/5/21 22:51
@@ -20,6 +22,8 @@ public class MyApplication extends Application {
     //测试数据，不用每次都登录
     public static int USERID = 3419;
     public static String phone = "13200000001";
+    //定位坐标
+    public static LatLonPoint LOCATION;
 
     @Override
     public void onCreate() {

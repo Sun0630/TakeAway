@@ -6,12 +6,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.services.core.LatLonPoint;
+import com.sx.takeaway.MyApplication;
 import com.sx.takeaway.R;
 import com.sx.takeaway.dagger2.component.fragment.DaggerHomeFragmentComponent;
 import com.sx.takeaway.dagger2.module.fragment.HomeFragmentModule;
@@ -43,10 +50,10 @@ import butterknife.OnClick;
  * a、简单数据加载
  * b、复杂数据加载
  */
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements AMapLocationListener {
 
 
-
+    private static final String TAG = "HomeFragment";
     @BindView(R.id.rv_home)
     RecyclerView mRvHome;
     @BindView(R.id.home_tv_address)
@@ -60,6 +67,8 @@ public class HomeFragment extends BaseFragment {
     @Inject
     HomeFragmentPresenter mPresenter;
     private HomeRecyclerViewAdapter mViewAdapter;
+    private AMapLocationClient mLocationClient;
+    private AMapLocationClientOption mLocationClientOption;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,7 +102,46 @@ public class HomeFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPresenter.getData();
+//        mPresenter.getData();
+        //无地图定位
+        location();
+    }
+
+    /**
+     * 无地图定位
+     */
+    private void location() {
+        mLocationClient = new AMapLocationClient(this.getContext());
+        //初始化定位参数
+        mLocationClientOption = new AMapLocationClientOption();
+        //设置定位监听
+        mLocationClient.setLocationListener(this);
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationClientOption.setInterval(2000);
+        //设置定位参数
+        mLocationClient.setLocationOption(mLocationClientOption);
+        // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+        // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+        // 在定位结束后，在合适的生命周期调用onDestroy()方法
+        // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+        //启动定位
+        mLocationClient.startLocation();
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation location) {
+        if (location != null
+                && location.getErrorCode() == 0){
+            MyApplication.LOCATION = new LatLonPoint(location.getLatitude(),location.getLongitude());
+
+            String address = location.getAddress();
+            Log.e(TAG, "onLocationChanged: "+address);
+            mHomeTvAddress.setText(address);
+            //停止定位
+            mLocationClient.stopLocation();
+        }
     }
 
     @Override
@@ -162,6 +210,12 @@ public class HomeFragment extends BaseFragment {
         startActivityForResult(intent,200);
     }
 
-//    Error:Execution failed for task ':app:packageDebug'.
-//            > com.android.ide.common.signing.KeytoolException: Failed to read key takeaway from store "E:\fuckCode\takeaway.jks": No key with alias 'takeaway' found in keystore E:\fuckCode\takeaway.jks
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //在Fragment中使用该方法时，需要去该Fragment所在的Activity中调用一下此方法
+        mHomeTvAddress.setText(data.getStringExtra("title"));
+    }
+
+
 }

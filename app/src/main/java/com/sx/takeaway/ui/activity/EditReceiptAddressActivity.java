@@ -1,6 +1,7 @@
 package com.sx.takeaway.ui.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -53,8 +54,8 @@ public class EditReceiptAddressActivity extends BaseActivity {
     EditText mEtPhone;
     @BindView(R.id.ib_delete_phone)
     ImageButton mIbDeletePhone;
-    @BindView(R.id.et_receipt_address)
-    EditText mEtReceiptAddress;
+    @BindView(R.id.tv_receipt_address)
+    TextView mTvReceiptAddress;
     @BindView(R.id.et_detail_address)
     EditText mEtDetailAddress;
     @BindView(R.id.tv_label)
@@ -65,6 +66,9 @@ public class EditReceiptAddressActivity extends BaseActivity {
     Button mBtOk;
 
     private int id;
+    private double latitude;
+    private double longitude;
+
     /*
         * 工作列表：
         *   1，添加地址
@@ -105,9 +109,14 @@ public class EditReceiptAddressActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.ib_back, R.id.rb_man, R.id.rb_women, R.id.ib_select_label, R.id.bt_ok,R.id.ib_delete_address})
+    @OnClick({R.id.ib_back, R.id.rb_man, R.id.rb_women, R.id.ib_select_label, R.id.bt_ok,R.id.ib_delete_address,R.id.tv_receipt_address})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_receipt_address:
+                //跳转到地图选择地址页面
+                Intent intent = new Intent(this, SelectAddressActivity.class);
+                startActivityForResult(intent,200);
+                break;
             case R.id.ib_back:
                 finish();
                 break;
@@ -127,6 +136,19 @@ public class EditReceiptAddressActivity extends BaseActivity {
                   changeReceiptAddressInfo();
                 }
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 200){
+            String title = data.getStringExtra("title");
+            String snippet = data.getStringExtra("snippet");
+            mTvReceiptAddress.setText(title+"/r/n"+snippet);
+
+            latitude = data.getDoubleExtra("latitude",0);
+            longitude = data.getDoubleExtra("longitude",0);
         }
     }
 
@@ -188,14 +210,14 @@ public class EditReceiptAddressActivity extends BaseActivity {
                 break;
         }
         String phone = mEtPhone.getText().toString().trim();
-        String receiptAddress = mEtReceiptAddress.getText().toString().trim();
+        String receiptAddress = mTvReceiptAddress.getText().toString().trim();
         String detailAddress = mEtDetailAddress.getText().toString().trim();
         String label = mTvLabel.getText().toString();
 
         if (id == -1) {
-            mAddressPresenter.create(name, sex, phone, receiptAddress, detailAddress, label);
+            mAddressPresenter.create(name, sex, phone, receiptAddress, detailAddress, label,latitude,longitude);
         } else {
-            mAddressPresenter.update(id, name, sex, phone, receiptAddress, detailAddress, label);
+            mAddressPresenter.update(id, name, sex, phone, receiptAddress, detailAddress, label,latitude,longitude);
         }
         finish();
     }
@@ -216,7 +238,7 @@ public class EditReceiptAddressActivity extends BaseActivity {
             Toast.makeText(this, "请填写合法的手机号", Toast.LENGTH_SHORT).show();
             return false;
         }
-        String receiptAddress = mEtReceiptAddress.getText().toString().trim();
+        String receiptAddress = mTvReceiptAddress.getText().toString().trim();
         if (TextUtils.isEmpty(receiptAddress)) {
             Toast.makeText(this, "请填写收获地址", Toast.LENGTH_SHORT).show();
             return false;
@@ -244,7 +266,7 @@ public class EditReceiptAddressActivity extends BaseActivity {
             mEtName.setSelection(addressBean.name.length());//把光标放在最后
 
             mEtPhone.setText(addressBean.phone);
-            mEtReceiptAddress.setText(addressBean.receiptAddress);
+            mTvReceiptAddress.setText(addressBean.receiptAddress);
             mEtDetailAddress.setText(addressBean.detailAddress);
 
             if (!TextUtils.isEmpty(addressBean.sex)) {

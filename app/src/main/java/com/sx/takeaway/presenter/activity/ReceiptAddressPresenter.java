@@ -101,9 +101,9 @@ public class ReceiptAddressPresenter extends BasePresenter {
     /**
      * 用户添加地址数据
      */
-    public void create(String name, String sex, String phone, String receiptAddress, String detailAddress, String label) {
+    public void create(String name, String sex, String phone, String receiptAddress, String detailAddress, String label, double latitude, double longitude) {
         //添加一条数据到数据库
-        AddressBean addressBean = new AddressBean(name, sex, phone, receiptAddress, detailAddress, label);
+        AddressBean addressBean = new AddressBean(name, sex, phone, receiptAddress, detailAddress, label,latitude,longitude);
         int i = create(addressBean);
         if (i == 1) {
             //写入本地数据库成功
@@ -147,17 +147,18 @@ public class ReceiptAddressPresenter extends BasePresenter {
 
     /**
      * 修改用户地址信息
-     *
-     * @param id
+     *  @param id
      * @param name
      * @param sex
      * @param phone
      * @param address
      * @param address1
      * @param label
+     * @param latitude
+     * @param longitude
      */
-    public void update(int id, String name, String sex, String phone, String address, String address1, String label) {
-        AddressBean bean = new AddressBean(name, sex, phone, address, address1, label);
+    public void update(int id, String name, String sex, String phone, String address, String address1, String label, double latitude, double longitude) {
+        AddressBean bean = new AddressBean(name, sex, phone, address, address1, label,latitude,longitude);
         UserBean userBean = new UserBean();
         userBean._id = MyApplication.USERID;
         bean.user = userBean;

@@ -159,15 +159,14 @@
             android:textSize="12sp"
             />
 
-        <EditText
-            android:id="@+id/et_receipt_address"
+        <TextView
+            android:id="@+id/tv_receipt_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="90dp"
-            android:background="@null"
             android:hint="小区/写字楼/学校"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textSize="14sp"/>
     </RelativeLayout>
 

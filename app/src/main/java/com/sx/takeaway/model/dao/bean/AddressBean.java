@@ -42,13 +42,15 @@ public class AddressBean {
     public AddressBean() {
     }
 
-    public AddressBean(String name, String sex, String phone, String receiptAddress, String detailAddress, String label) {
+    public AddressBean(String name, String sex, String phone, String receiptAddress, String detailAddress, String label, double latitude, double longitude) {
         this.name = name;
         this.sex = sex;
         this.phone = phone;
         this.receiptAddress = receiptAddress;
         this.detailAddress = detailAddress;
         this.label = label;
+        this.latitude = latitude;
+        this.longitude = longitude;
         timeStamp = System.currentTimeMillis();
     }
 }
