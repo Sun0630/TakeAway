@@ -20,6 +20,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        resConfigs "zh"// 删除无用的语言包
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         /*极光推送设置*/
@@ -43,6 +44,8 @@ android {
         }
 
         debug {
+            minifyEnabled true //开启代码混淆
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.map
         }
     }
