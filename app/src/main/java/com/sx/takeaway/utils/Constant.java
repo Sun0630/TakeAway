@@ -24,4 +24,8 @@ public interface Constant {
 
     //短信登录方式
     int LOGIN_TYPE_SMS = 2;
+
+    //经纬度
+    String LAT = "Lat";
+    String LNG = "Lng";
 }

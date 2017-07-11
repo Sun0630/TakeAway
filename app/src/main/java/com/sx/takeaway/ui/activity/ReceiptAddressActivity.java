@@ -62,7 +62,7 @@ public class ReceiptAddressActivity extends BaseActivity {
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         mAddressPresenter.getData();
     }

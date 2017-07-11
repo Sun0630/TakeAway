@@ -10,6 +10,7 @@ import com.sx.takeaway.presenter.activity.OrderPresenter;
 import com.sx.takeaway.presenter.activity.PaymentPresenter;
 import com.sx.takeaway.presenter.activity.ReceiptAddressPresenter;
 import com.sx.takeaway.ui.IView;
+import com.umeng.analytics.MobclickAgent;
 
 import javax.inject.Inject;
 
@@ -48,4 +49,16 @@ public class BaseActivity extends AppCompatActivity implements IView {
     public void failed(String msg) {
 
     }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
+
 }

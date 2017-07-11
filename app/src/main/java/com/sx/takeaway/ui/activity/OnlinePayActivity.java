@@ -99,7 +99,7 @@ public class OnlinePayActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         mPaymentPresenter.getData(mOrderid);
     }

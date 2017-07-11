@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <!--短信验证权限-->
+    <!-- 短信验证权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -18,37 +18,37 @@
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-    <!--支付宝支付-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 支付宝支付 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
+    <!-- 高德地图定位权限 -->
+    <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!-- 用于写入缓存数据到扩展存储卡 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
-    <!--高德地图定位权限-->
-    <!--用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
-    <!--用于访问GPS定位-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <!--用于获取运营商信息，用于支持提供运营商信息相关的接口-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-    <!--用于访问网络，网络定位需要上网-->
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <!--用于读取手机当前的状态-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-    <!--用于写入缓存数据到扩展存储卡-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <!--用于申请调用A-GPS模块-->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
-    <!--用于申请获取蓝牙信息进行室内定位-->
-    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
-
+    <!-- 极光推送key:b2a6519e7abf0dcda771846f -->
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -59,17 +59,20 @@
         android:theme="@style/AppTheme"
         >
 
-        <!--gdkey::97034ee5eeab0b27c51ccde5fe29afd7-->
+        <!-- gdkey::97034ee5eeab0b27c51ccde5fe29afd7 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="97034ee5eeab0b27c51ccde5fe29afd7"/>
+            android:value="97034ee5eeab0b27c51ccde5fe29afd7"
+            />
 
-        <!--声明定位service-->
-        <service android:name="com.amap.api.location.APSService"></service>
+        <!--umengKey:59643852734be46ee40002be-->
+        <meta-data android:value="59643852734be46ee40002be" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
 
-        <activity
-            android:name=".ui.activity.MainActivity"
-            >
+        <!-- 声明定位service -->
+        <service android:name="com.amap.api.location.APSService"/>
+
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -77,7 +80,7 @@
             </intent-filter>
         </activity>
 
-        <!--短信验证-->
+        <!-- 短信验证 -->
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -85,37 +88,31 @@
             android:windowSoftInputMode="stateHidden|adjustResize"
             />
 
-        <!--商家详情-->
+        <!-- 商家详情 -->
         <activity
             android:name=".ui.activity.SellerDetailActivity"
             android:theme="@style/ActivityTheme"
             />
 
-        <!--购物车页面-->
-        <activity
-            android:name=".ui.activity.CartActivity"
-            />
+        <!-- 购物车页面 -->
+        <activity android:name=".ui.activity.CartActivity"/>
 
-        <!--登录界面-->
-        <activity
-            android:name=".ui.activity.LoginActivity"
-            />
+        <!-- 登录界面 -->
+        <activity android:name=".ui.activity.LoginActivity"/>
 
-        <!--结算中心-->
-        <activity
-            android:name=".ui.activity.SettleCenterActivity"
-            />
+        <!-- 结算中心 -->
+        <activity android:name=".ui.activity.SettleCenterActivity"/>
 
-        <!--收货地址-->
+        <!-- 收货地址 -->
         <activity android:name=".ui.activity.ReceiptAddressActivity"/>
 
-        <!--编辑收货地址-->
+        <!-- 编辑收货地址 -->
         <activity
             android:name=".ui.activity.EditReceiptAddressActivity"
             android:theme="@style/ActivityTheme"
             />
 
-        <!--在线支付-->
+        <!-- 在线支付 -->
         <activity
             android:name=".ui.activity.OnlinePayActivity"
             android:theme="@style/ActivityTheme"
@@ -127,16 +124,48 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            >
         </activity>
         <!-- alipay sdk end -->
 
-        <!--定位页面-->
+
+        <!-- 定位页面 -->
         <activity
             android:name=".ui.activity.SelectAddressActivity"
             android:theme="@style/ActivityTheme"
             />
 
+        <!-- 订单详情页面 -->
+        <activity
+            android:name=".ui.activity.OrderDetailActivity"
+            android:theme="@style/ActivityTheme"
+            />
+
+        <receiver
+            android:name=".ui.recever.MyReceiver"
+            android:enabled="true"
+            android:exported="true"
+            >
+            <intent-filter>
+
+                <!-- Required 用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.REGISTRATION"/>
+                <!-- Required 用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
+                <!-- Required 用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>
+                <!-- Required 用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION"/>
+
+                <category android:name="com.sx.takeaway"/>
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".ui.activity.TestActivity">
+        </activity>
     </application>
 
 </manifest>

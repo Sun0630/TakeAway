@@ -86,4 +86,12 @@ public interface ResponseInfoApi {
 
     @GET(Constant.PAY)
     Call<ResponseInfo> payment(@Query("orderId") String id);
+
+    /**
+     * 获取订单列表信息
+     * @param userid
+     * @return
+     */
+    @GET(Constant.ORDER)
+    Call<ResponseInfo> orderList(@Query("userId") int userid);
 }
