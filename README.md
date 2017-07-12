@@ -27,6 +27,9 @@
 ---
 <img src="/gif/2.jpg" width="330px" height="600px"/>
 
+---
+<img src="/gif/3.png" width="330px" height="600px"/>
+
 #### Dagger2
 > 编译时依赖注入的框架，在MVP架构下更加解耦V层与P层的关联。解决了反射在开发中带来的性能问题
 
