@@ -66,8 +66,14 @@
             />
 
         <!--umengKey:59643852734be46ee40002be-->
-        <meta-data android:value="59643852734be46ee40002be" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="59643852734be46ee40002be"
+            />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UM_CHANNEL_ID}"
+            />
 
         <!-- 声明定位service -->
         <service android:name="com.amap.api.location.APSService"/>
@@ -95,7 +101,10 @@
             />
 
         <!-- 购物车页面 -->
-        <activity android:name=".ui.activity.CartActivity"/>
+        <activity
+            android:name=".ui.activity.CartActivity"
+            android:theme="@style/ActivityTheme"
+            />
 
         <!-- 登录界面 -->
         <activity android:name=".ui.activity.LoginActivity"/>

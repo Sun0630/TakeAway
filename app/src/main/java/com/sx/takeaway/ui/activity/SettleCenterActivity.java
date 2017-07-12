@@ -102,7 +102,7 @@ public class SettleCenterActivity extends BaseActivity {
         * */
 
         //商家数据
-        mIvLogo.setImageResource(R.drawable.item_logo);
+        mIvLogo.setImageResource(R.drawable.pepsi);
         mTvSellerName.setText(ShoppingCartManager.getInstance().name);
 
         //商品数据，一条条的添加到容器中

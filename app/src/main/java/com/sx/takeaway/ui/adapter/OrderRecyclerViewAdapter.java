@@ -128,7 +128,7 @@ public class OrderRecyclerViewAdapter extends RecyclerView.Adapter implements Ob
 
         public void setOrder(Order order) {
             this.order = order;
-            tvOrderItemSellerName.setText(order.seller.name);
+//            tvOrderItemSellerName.setText(order.seller.name);
             Picasso.with(itemView.getContext()).load(order.seller.pic).into(ivOrderItemSellerLogo);
 
             // 设置订单类型

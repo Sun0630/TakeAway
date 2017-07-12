@@ -41,7 +41,7 @@
                     android:layout_marginLeft="5dip"
                     android:layout_weight="1"
                     android:singleLine="true"
-                    android:text="昌平区北七家宏福创业园修正大厦"
+                    android:text="河南省郑州市金水区"
                     android:textColor="#FFF"
                     android:textSize="14sp"/>
 

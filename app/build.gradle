@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'com.neenbedankt.android-apt'
 android {
-
     signingConfigs {
         map {
             keyAlias 'takeAway'
@@ -36,7 +35,6 @@ android {
                 JPUSH_CHANNEL: "sx", //用户渠道统计的渠道名称
         ]
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -49,8 +47,17 @@ android {
             signingConfig signingConfigs.map
         }
     }
-
-
+    productFlavors {
+        anzhi {
+            manifestPlaceholders=[UM_CHANNEL_ID:"anzhi"]
+        }
+        huawei {
+            manifestPlaceholders=[UM_CHANNEL_ID:"huawei"]
+        }
+        wandoujia {
+            manifestPlaceholders=[UM_CHANNEL_ID:"wandoujia"]
+        }
+    }
 }
 
 repositories {
@@ -76,7 +83,6 @@ dependencies {
     compile files('libs/alipaysdk.jar')
     compile files('libs/alipaysecsdk.jar')
     compile files('libs/alipayutdid.jar')
-
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.dagger:dagger:2.6'
@@ -98,7 +104,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.google.dagger:dagger-compiler:2.6'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
-
     //友盟
     compile 'com.umeng.analytics:analytics:latest.integration'
 }
