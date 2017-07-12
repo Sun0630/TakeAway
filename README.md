@@ -16,11 +16,16 @@
 * 多渠道打包
 
 #### Android UI
+
+
 <img src="/gif/1.gif"/>
+
+---
 
 <img src="/gif/2.gif"/>
 
-<img src="/gif/2.jpg" width="350px" height="600px"/>
+---
+<img src="/gif/2.jpg" width="330px" height="600px"/>
 
 
 #### APK瘦身
